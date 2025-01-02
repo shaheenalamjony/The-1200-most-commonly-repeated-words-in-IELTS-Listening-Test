@@ -7323,15 +7323,6 @@ mainObjectData.languages = [
 
 
 
-
-
-mainObjectData.daysOfTheWeek1 = [];
-mainObjectData.daysOfTheWeek2 = [];
-mainObjectData.daysOfTheWeek3 = [];
-mainObjectData.daysOfTheWeek4 = [];
-mainObjectData.daysOfTheWeek5 = [];
-
-
 function populateWords(category) {
    // alert("populateWords called");
   const words = mainObjectData[category];
@@ -7386,6 +7377,22 @@ function populateWords(category) {
             <strong>Translations:</strong>
             <ul>${translation}</ul>
           </div>
+
+<div class="word-section">
+                        <strong>Pronunciation:</strong>
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                            <button class="pronunciation-btn" onclick="pronounceWord('${word}', 'en')">
+                                English 🔊
+                            </button>
+                        </div>
+                    </div>
+                    <div class="spelling-check">
+                        <label class="form-label">Practice Spelling:</label>
+                        <input type="text" class="form-control mb-2" placeholder="Type the word here...">
+                        <button class="btn btn-primary" onclick="checkSpelling(this, '${word}')">Check Spelling</button>
+                        <div class="feedback"></div>
+                    </div>
+
         </div>
       </div>`;
     wordContainer.innerHTML += slide;
