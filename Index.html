@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Vocabulary Learning</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .categories {
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .category-btn {
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+            margin: 5px;
+            border-radius: 20px;
+            padding: 8px 16px;
+            white-space: nowrap;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            height: 100%;
+            min-height: 500px;
+            margin-right: 20px;
+            margin-left: 20px;
+        }
+
+        .swiper {
+            padding: 20px 0;
+            height: auto;
+        }
+
+        .pronunciation-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+
+        .pronunciation-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .spelling-check {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8fafc;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .feedback.correct {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .word-section {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .word-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .word-card {
+                min-height: 400px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary" href="#">IELTS Vocabulary</a>
+        </div>
+    </nav>
+
+    <div class="container my-4">
+        <div class="categories mb-4">
+            <h5 class="mb-3">Categories</h5>
+            <!-- class="d-flex flex-nowrap"  -->
+            <div id="categoryContainer">
+                <!-- Categories will be populated here -->
+            </div>
+        </div>
+
+        <div class="swiper">
+            <div class="swiper-wrapper" id="wordContainer">
+                <!-- Word cards will be populated here -->
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script>
+        // Complete vocabulary data from your list
+        const vocabularyData = {
+    'Days of the week': {
+            'Monday': { 
+                meaning: 'সোমবার', 
+                explanation: 'The first day of the week.',
+                synonyms: 'Weekday, Workday',
+                pronunciation: 'Mon-day',
+                BanglaPronunciation: 'মন্ডে'
+            },
+            'Tuesday': { 
+                meaning: 'মঙ্গলবার', 
+                explanation: 'The second day of the week.',
+                synonyms: 'Weekday, Workday',
+                pronunciation: 'Tues-day',
+                BanglaPronunciation: 'টিউসডে'
+            },
+            'Wednesday': { 
+                meaning: 'বুধবার', 
+                explanation: 'The third day of the week.',
+                synonyms: 'Weekday',
+                pronunciation: 'Wens-day',
+                BanglaPronunciation: 'ওয়েন্সডে'
+            },
+            'Thursday': { 
+                meaning: 'বৃহস্পতিবার', 
+                explanation: 'The fourth day of the week.',
+                synonyms: 'Weekday',
+                pronunciation: 'Thurs-day',
+                BanglaPronunciation: 'থার্সডে'
+            },
+            'Friday': { 
+                meaning: 'শুক্রবার', 
+                explanation: 'The fifth day of the week.',
+                synonyms: 'Weekday',
+                pronunciation: 'Fri-day',
+                BanglaPronunciation: 'ফ্রাইডে'
+            },
+            'Saturday': { 
+                meaning: 'শনিবার', 
+                explanation: 'The sixth day of the week.',
+                synonyms: 'Weekend',
+                pronunciation: 'Sat-ur-day',
+                BanglaPronunciation: 'স্যাটারডে'
+            },
+            'Sunday': { 
+                meaning: 'রবিবার', 
+                explanation: 'The seventh day of the week.',
+                synonyms: 'Weekend',
+                pronunciation: 'Sun-day',
+                BanglaPronunciation: 'সানডে'
+            },
+            'weekdays': { 
+                meaning: 'সপ্তাহের দিনগুলি',
+                explanation: 'The days from Monday to Friday.',
+                synonyms: 'Workdays',
+                pronunciation: 'Week-days',
+                BanglaPronunciation: 'উইকডে'
+            },
+            'weekend': { 
+                meaning: 'সপ্তাহান্তে', 
+                explanation: 'The days Saturday and Sunday.',
+                synonyms: 'Holiday',
+                pronunciation: 'Week-end',
+                BanglaPronunciation: 'উইকএন্ড'
+            }
+        },
+        'Months': {
+            'January': {
+                meaning: 'জানুয়ারি',
+                explanation: 'The first month of the year.',
+                synonyms: 'New Year month',
+                pronunciation: 'Jan-u-ar-y',
+                BanglaPronunciation: 'জানুয়ারি'
+            },
+            'February': {
+                meaning: 'ফেব্রুয়ারি',
+                explanation: 'The second month of the year.',
+                synonyms: 'Valentine month',
+                pronunciation: 'Feb-ru-ar-y',
+                BanglaPronunciation: 'ফেব্রুয়ারি'
+            },
+            'March': {
+                meaning: 'মার্চ',
+                explanation: 'The third month of the year.',
+                synonyms: 'Spring month',
+                pronunciation: 'March',
+                BanglaPronunciation: 'মার্চ'
+            },
+            'April': {
+                meaning: 'এপ্রিল',
+                explanation: 'The fourth month of the year.',
+                synonyms: 'Spring month',
+                pronunciation: 'A-pril',
+                BanglaPronunciation: 'এপ্রিল'
+            },
+            'May': {
+                meaning: 'মে',
+                explanation: 'The fifth month of the year.',
+                synonyms: 'Spring month',
+                pronunciation: 'May',
+                BanglaPronunciation: 'মে'
+            },
+            'June': {
+                meaning: 'জুন',
+                explanation: 'The sixth month of the year.',
+                synonyms: 'Summer month',
+                pronunciation: 'June',
+                BanglaPronunciation: 'জুন'
+            },
+            'July': {
+                meaning: 'জুলাই',
+                explanation: 'The seventh month of the year.',
+                synonyms: 'Summer month',
+                pronunciation: 'Ju-ly',
+                BanglaPronunciation: 'জুলাই'
+            },
+            'August': {
+                meaning: 'অগস্ট',
+                explanation: 'The eighth month of the year.',
+                synonyms: 'Summer month',
+                pronunciation: 'Au-gust',
+                BanglaPronunciation: 'অগস্ট'
+            },
+            'September': {
+                meaning: 'সেপ্টেম্বর',
+                explanation: 'The ninth month of the year.',
+                synonyms: 'Autumn month',
+                pronunciation: 'Sep-tem-ber',
+                BanglaPronunciation: 'সেপ্টেম্বর'
+            },
+            'October': {
+                meaning: 'অক্টোবর',
+                explanation: 'The tenth month of the year.',
+                synonyms: 'Autumn month',
+                pronunciation: 'Oc-to-ber',
+                BanglaPronunciation: 'অক্টোবর'
+            },
+            'November': {
+                meaning: 'নভেম্বর',
+                explanation: 'The eleventh month of the year.',
+                synonyms: 'Autumn month',
+                pronunciation: 'No-vem-ber',
+                BanglaPronunciation: 'নভেম্বর'
+            },
+            'December': {
+                meaning: 'ডিসেম্বর',
+                explanation: 'The twelfth month of the year.',
+                synonyms: 'Winter month',
+                pronunciation: 'De-cem-ber',
+                BanglaPronunciation: 'ডিসেম্বর'
+            }
+        }
+    };
+
+
+        // Initialize Swiper
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                type: 'fraction'
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+
+        // Populate categories
+        Object.keys(vocabularyData).forEach(category => {
+            $('#categoryContainer').append(`
+                <button class="category-btn" data-category="${category}">${category}</button>
+            `);
+        });
+
+        // Handle category selection
+        $('.category-btn').click(function() {
+            $('.category-btn').removeClass('active');
+            $(this).addClass('active');
+            const category = $(this).data('category');
+            populateWords(category);
+        });
+
+        // Populate words for selected category
+        function populateWords(category) {
+    const words = vocabularyData[category];
+    $('#wordContainer').empty();
+
+    Object.keys(words).forEach(word => {
+        const { meaning, explanation, synonyms, pronunciation, BanglaPronunciation } = words[word];
+        const slide = `
+            <div class="swiper-slide">
+                <div class="word-card">
+                    <div class="word-section">
+                        <h3 class="word-title">${word}</h3>
+                    </div>
+
+                    <div class="word-section">
+                        <strong>Meaning (বাংলা):</strong>
+                        <p>${meaning}</p>
+                    </div>
+
+                    <div class="word-section">
+                        <strong>English Explanation:</strong>
+                        <p>${explanation}</p>
+                    </div>
+
+                    <div class="word-section">
+                        <strong>Synonyms:</strong>
+                        <p>${synonyms}</p>
+                    </div>
+                     <div class="word-section">
+                        <strong>English pronunciation :</strong>
+                        <p>${pronunciation}</p>
+                    </div>
+                     <div class="word-section">
+                        <strong>Bangla pronunciation:</strong>
+                        <p>${BanglaPronunciation}</p>
+                    </div>
+                    
+                    <div class="word-section">
+                        <strong>Pronunciation:</strong>
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                            <button class="pronunciation-btn" onclick="pronounceWord('${word}', 'en')">
+                                English 🔊
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="spelling-check">
+                        <label class="form-label">Practice Spelling:</label>
+                        <input type="text" class="form-control mb-2" placeholder="Type the word here...">
+                        <button class="btn btn-primary" onclick="checkSpelling(this, '${word}')">Check Spelling</button>
+                        <div class="feedback"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+        $('#wordContainer').append(slide);
+    });
+
+    swiper.update();
+}
+
+        // Pronunciation function
+        function pronounceWord(word, lang) {
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = lang === 'bn' ? 'bn-BD' : 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Spelling check function
+        function checkSpelling(btn, correctWord) {
+            const input = $(btn).prev('input').val().trim().toLowerCase();
+            const feedback = $(btn).next('.feedback');
+            
+            if (input === correctWord.toLowerCase()) {
+                feedback.removeClass('incorrect').addClass('correct')
+                    .html('Correct! Well done! ✓');
+            } else {
+                feedback.removeClass('correct').addClass('incorrect')
+                    .html(`Incorrect. The correct spelling is "${correctWord}"`);
+            }
+        }
+
+        // Initialize with first category
+        $('.category-btn:first').click();
+    </script>
+</body>
+</html>
