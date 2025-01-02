@@ -1,118 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IELTS Vocabulary Learning</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <style>
-      :root {
-        --primary-color: #2563eb;
-        --secondary-color: #1e40af;
-      }
-
-      body {
-        font-family: 'Segoe UI', system-ui, sans-serif;
-        background-color: #f8fafc;
-      }
-
-      .categories {
-        overflow-x: auto;
-        padding: 10px 0;
-      }
-
-      .category-btn {
-        background-color: white;
-        border: 2px solid var(--primary-color);
-        color: var(--primary-color);
-        transition: all 0.3s ease;
-        margin: 5px;
-        border-radius: 20px;
-        padding: 8px 16px;
-        white-space: nowrap;
-      }
-
-      .category-btn:hover,
-      .category-btn.active {
-        background-color: var(--primary-color);
-        color: white;
-      }
-
-      .word-card {
-        background: white;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-        height: 100%;
-        min-height: 500px;
-        margin-right: 20px;
-        margin-left: 20px;
-      }
-
-      .swiper {
-        padding: 20px 0;
-        height: auto;
-      }
-
-      .pronunciation-btn {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 20px;
-        transition: all 0.3s ease;
-        margin: 0 5px;
-      }
-
-      .pronunciation-btn:hover {
-        background-color: var(--secondary-color);
-      }
-
-      .spelling-check {
-        margin-top: 20px;
-        padding: 20px;
-        border-radius: 10px;
-        background-color: #f8fafc;
-      }
-
-      .feedback {
-        margin-top: 10px;
-        padding: 10px;
-        border-radius: 5px;
-      }
-
-      .feedback.correct {
-        background-color: #dcfce7;
-        color: #166534;
-      }
-
-      .feedback.incorrect {
-        background-color: #fee2e2;
-        color: #991b1b;
-      }
-
-      .word-section {
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #e5e7eb;
-      }
-
-      .word-title {
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        margin-bottom: 1rem;
-      }
-
-      @media (max-width: 768px) {
-        .word-card {
-          min-height: 400px;
-          padding: 20px;
+        :root {
+            --duo-green: #58CC02;
+            --duo-blue: #1CB0F6;
+            --duo-red: #FF4B4B;
+            --duo-yellow: #FFC800;
+            --duo-gray: #E5E5E5;
+            --duo-dark: #4B4B4B;
         }
-      }
+
+        body {
+            font-family: "DIN Round Pro", -apple-system, system-ui, sans-serif;
+            background-color: #FFF;
+            color: #3C3C3C;
+        }
+
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            color: var(--duo-green) !important;
+            font-weight: 800;
+            font-size: 24px;
+        }
+
+        .categories {
+            padding: 15px 0;
+            background: white;
+        }
+
+        #categoryContainer {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        #categoryContainer::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            background: white;
+            border: 2px solid var(--duo-green);
+            color: var(--duo-green);
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: var(--duo-green);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 0 rgb(88, 167, 0);
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .word-title {
+            font-size: 28px;
+            color: var(--duo-dark);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .word-section {
+            background: #F7F7F7;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .word-section strong {
+            color: var(--duo-blue);
+            font-size: 16px;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .pronunciation-btn {
+            background: var(--duo-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            width: 100%;
+            box-shadow: 0 4px 0 rgb(28, 176, 246, 0.5);
+            transition: all 0.2s;
+        }
+
+        .pronunciation-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 rgb(28, 176, 246, 0.5);
+        }
+
+        .pronunciation-btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        .spelling-check {
+            background: #F7F7F7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .spelling-check input {
+            border: 2px solid var(--duo-gray);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .spelling-check input:focus {
+            border-color: var(--duo-blue);
+            outline: none;
+        }
+
+        .spelling-check button {
+            background: var(--duo-green);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            width: 100%;
+            font-size: 16px;
+            box-shadow: 0 4px 0 rgb(88, 167, 0);
+            transition: all 0.2s;
+        }
+
+        .spelling-check button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 0 rgb(88, 167, 0);
+        }
+
+        .spelling-check button:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        .feedback {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .feedback.correct {
+            background: rgb(88, 204, 2, 0.1);
+            color: var(--duo-green);
+        }
+
+        .feedback.incorrect {
+            background: rgb(255, 75, 75, 0.1);
+            color: var(--duo-red);
+        }
+
+        .examples-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .examples-list li {
+            background: #F7F7F7;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: var(--duo-green);
+        }
+
+        .swiper-pagination {
+            color: var(--duo-green);
+        }
+
+        @media (max-width: 768px) {
+            .word-card {
+                margin: 15px;
+            }
+
+            .word-title {
+                font-size: 24px;
+            }
+
+            .pronunciation-btn,
+            .spelling-check button {
+                padding: 10px;
+                font-size: 15px;
+            }
+        }
+     /* Add these new animation styles */
+     @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .word-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .swiper-slide-active {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .swiper-slide-prev {
+            animation: slideOut 0.5s ease-out;
+        }
+
+        .category-change {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Modify the Swiper initialization in your JavaScript */
+        
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div class="container">
         <a class="navbar-brand fw-bold text-primary" href="#">IELTS Vocabulary</a>
@@ -136,7 +305,11 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-    <script>
+   
+   
+   
+   
+   <script>
       
 
 
